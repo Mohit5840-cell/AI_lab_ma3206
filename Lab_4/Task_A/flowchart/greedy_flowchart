@@ -1,0 +1,37 @@
+// Greedy Scheduling Algorithm
+digraph {
+	fontname=Helvetica rankdir=TB size="8,10"
+	Start [label=Start fillcolor="#87CEEB" shape=oval style=filled]
+	End [label="End
+(Return Schedule & Total Cost)" fillcolor="#90EE90" shape=oval style=filled]
+	Parse [label="Phase 1: Initialization
+Parse Data & Build DAG
+Calculate initial In-Degrees" shape=box]
+	InitQ [label="Populate \"Waiting Room\"
+(Find all tasks where In-Degree == 0)" shape=box]
+	Sort [label="Phase 2: The Greedy Choice
+Sort the Waiting Room based on strategy
+(e.g., Cheapest Food, Longest Path)" fillcolor="#E6E6FA" shape=box style=filled]
+	Select [label="Phase 3: The Workday
+Select top \"G\" tasks from the queue
+Remove them from Waiting Room" shape=box]
+	Execute [label="Log tasks to current Day
+Add daily food cost to Total Cost" shape=box]
+	Update [label="Phase 4: Chain Reaction
+For each completed task:
+Subtract 1 from its neighbors' In-Degrees" shape=box]
+	Unlock [label="Did any neighbor hit In-Degree == 0?
+If YES -> Add to Waiting Room" shape=box]
+	CheckLoop [label="Is the Waiting
+Room empty?" fillcolor="#FFDAB9" shape=diamond style=filled]
+	Start -> Parse
+	Parse -> InitQ
+	InitQ -> CheckLoop
+	CheckLoop -> End [label=" YES (All tasks done)" fontcolor=green fontname="Helvetica-Bold"]
+	CheckLoop -> Sort [label=" NO (Tasks remaining)" fontcolor=red fontname="Helvetica-Bold"]
+	Sort -> Select
+	Select -> Execute
+	Execute -> Update
+	Update -> Unlock
+	Unlock -> CheckLoop [label=" Start Next Day"]
+}
